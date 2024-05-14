@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+
 public class BookRepository implements IBookRepository {
     private List<BookDto> books;
 
@@ -20,4 +20,49 @@ public class BookRepository implements IBookRepository {
     public List<BookDto> findAll() {
         return books;
     }
+
+    @Override
+    public BookDto findById(long id) {
+        for(BookDto book : books){
+            if(book.getId() == id){
+                return book;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public BookDto create(BookDto book) {
+        long id = books.getLast().getId() + 1;
+        book.setId(id);
+        books.add(book);
+        return book;
+    }
+
+    public BookDto update(BookDto bookUpdated){
+        for(int i=0; i<books.size(); i++){
+            if(books.get(i).getId() == bookUpdated.getId()){
+                books.set(i, bookUpdated);
+                //System.out.println(books.get(i).getId());
+                //System.out.println(bookUpdated.getId());
+                return bookUpdated;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public BookDto delete(long id) {
+        for(int i=0; i<books.size(); i++){
+            if(books.get(i).getId() == id){
+                BookDto bookToDelete = books.get(i);
+                //System.out.println(books.get(i).getId());
+                books.remove(i);
+                return bookToDelete;
+            }
+        }
+        return null;
+    }
+
+
 }

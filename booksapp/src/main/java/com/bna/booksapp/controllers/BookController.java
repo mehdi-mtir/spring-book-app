@@ -3,8 +3,7 @@ package com.bna.booksapp.controllers;
 import com.bna.booksapp.dtos.BookDto;
 import com.bna.booksapp.services.BookService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +20,28 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBooks());
     }
 
+
+
     @GetMapping("/books/{id}")
-    public ResponseEntity<String> getBookById(){
-        return ResponseEntity.ok("OK");
+    public ResponseEntity<BookDto> getBookById(@PathVariable long id){
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
+
+    @PostMapping("/books")
+    public ResponseEntity<BookDto> addBook(@RequestBody BookDto book){
+        return ResponseEntity.ok(bookService.addBook(book));
+    }
+
+
+    @PutMapping("/books/{id}")
+    public ResponseEntity<BookDto> updateBook(@PathVariable long id, @RequestBody BookDto book){
+        return ResponseEntity.ok(bookService.updateBook(id, book));
+    }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<BookDto> deleteBook(@PathVariable long id){
+        return ResponseEntity.ok(bookService.deleteBook(id));
+    }
+
+
 }
